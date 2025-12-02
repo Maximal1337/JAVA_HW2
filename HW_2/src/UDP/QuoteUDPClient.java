@@ -17,7 +17,11 @@ public class QuoteUDPClient {
 			 System.out.print("Type get or exit: ");
 			 while((message = stdIn.readLine()) != null) {
 				 if(message.equalsIgnoreCase("EXIT")) {
-					 System.out.println("Shutting down the programm...");
+					 byte[] sendData = message.getBytes();
+					 InetAddress addr = InetAddress.getByName("localhost");
+					 DatagramPacket sPacket = new DatagramPacket(sendData, sendData.length, addr, 8080);
+					 socket.send(sPacket);
+					 System.out.println("Shutting down the program...");
 					 break;
 				 }
 				 byte[] sendData = message.getBytes();
@@ -38,6 +42,5 @@ public class QuoteUDPClient {
 			if (socket != null && !socket.isClosed())
 			socket.close();
 		}
-		 
 	}
 }
