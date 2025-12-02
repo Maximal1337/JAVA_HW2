@@ -14,10 +14,11 @@ public class CalculatorTCPServer
  String inputLine;
  double res = 0;
  while ((inputLine = in.readLine()) != null){ 
-	 if(inputLine.equalsIgnoreCase("exit")) break;
+	 if(inputLine.toUpperCase().equalsIgnoreCase("exit")) break;
 	 System.out.println("Received: " + inputLine);
 	 String[] calcArr = inputLine.split(" ");
 	 try {
+		 if(calcArr.length != 3) throw new IndexOutOfBoundsException();
 		 switch(calcArr[1]) {
 		 	case "+":
 		 		res = Integer.parseInt(calcArr[0]) + Integer.parseInt(calcArr[2]);
@@ -32,8 +33,10 @@ public class CalculatorTCPServer
 		 		res = Integer.parseInt(calcArr[0]) / Integer.parseInt(calcArr[2]);
 		 		break;
 		 }
-		 out.println(inputLine + " = " + res); 
+		 out.println(res); 
 	 }
+	 catch(ArithmeticException  e) {out.println("Error: Cant devide by zero");}
+	 catch(IndexOutOfBoundsException e) {out.println("Error: Invalid expression");}
 	 catch(Exception e) {
 		 out.println("Error: " + e.getMessage());
 	 }

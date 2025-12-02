@@ -12,11 +12,11 @@ public class CalculatorTCPClient
 	 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 	
 	 String userInput;
-	 System.out.print("Enter num op num: ");
+	 System.out.print("Enter expression (num op num): ");
 	 while ((userInput = stdIn.readLine()) != null){ 
-		 if(userInput.equalsIgnoreCase("exit")) break;
+		 if(userInput.toUpperCase().equalsIgnoreCase("EXIT")) break;
 		 out.println(userInput);
-		 System.out.println(in.readLine());
+		 System.out.println("Server returned: " + userInput + " = " + in.readLine());
 		 System.out.print("Enter num op num: ");
  }
  out.close(); in.close(); socket.close();
