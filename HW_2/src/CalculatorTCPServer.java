@@ -14,7 +14,7 @@ public class CalculatorTCPServer
  String inputLine;
  double res = 0;
  while ((inputLine = in.readLine()) != null){ 
-	 if(inputLine.toUpperCase().equalsIgnoreCase("exit")) break;
+	 if(inputLine.equalsIgnoreCase("exit")) break;
 	 System.out.println("Received: " + inputLine);
 	 String[] calcArr = inputLine.split(" ");
 	 try {
@@ -32,10 +32,11 @@ public class CalculatorTCPServer
 		 	case "/":
 		 		res = Integer.parseInt(calcArr[0]) / Integer.parseInt(calcArr[2]);
 		 		break;
+		 	default: res = -1;
 		 }
 		 out.println(res); 
 	 }
-	 catch(ArithmeticException  e) {out.println("Error: Cant devide by zero");}
+	 catch(ArithmeticException  e) {out.println("Error: Division by zero");}
 	 catch(IndexOutOfBoundsException e) {out.println("Error: Invalid expression");}
 	 catch(Exception e) {
 		 out.println("Error: " + e.getMessage());

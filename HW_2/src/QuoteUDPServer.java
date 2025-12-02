@@ -5,7 +5,11 @@ import java.net.DatagramSocket;
 public class QuoteUDPServer {
 	static Random rand = new Random();
 	public static void main(String[] args) {
-		String[] quotesArr = {"one", "two", "three", "four", "five"};
+		String[] quotesArr = {"The only way to do great work is to love what you do. – Steve Jobs",
+			    "Success is not final, failure is not fatal: it is the courage to continue that counts. – Winston Churchill",
+			    "Believe you can and you're halfway there. – Theodore Roosevelt",
+			    "The future belongs to those who believe in the beauty of their dreams. – Eleanor Roosevelt",
+			    "It does not matter how slowly you go as long as you do not stop. – Confucius"};
 		DatagramSocket socket = null;
 		try {
 			socket = new DatagramSocket(8080);
@@ -21,17 +25,16 @@ public class QuoteUDPServer {
 				String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
 				String sendMessage;
 				int rnd = 0;
-				if(message.toUpperCase().equalsIgnoreCase("EXIT")) break;
-				if(message.toUpperCase().equals("GET")) {
+				if(message.equalsIgnoreCase("EXIT")) break;
+				if(message.equalsIgnoreCase("GET")) {
 					try {
 						rnd = rand.nextInt(0,quotesArr.length);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.out.println(e.getMessage());
 					}
 					sendMessage = quotesArr[rnd];
 				}
-				else sendMessage = "Error";
+				else sendMessage = "Error: Invalid command. Use 'get' to receive a quote or 'exit' to quit.";
 				System.out.println("Received from client: " + message);
 				byte[] sendData = sendMessage.getBytes();
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(), receivePacket.getPort());

@@ -14,7 +14,10 @@ public class QuoteUDPClient {
 			 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 			 System.out.print("Type get or exit: ");
 			 while((message = stdIn.readLine()) != null) {
-				 if(message.toUpperCase().equalsIgnoreCase("EXIT")) break;
+				 if(message.equalsIgnoreCase("EXIT")) {
+					 System.out.println("Shutting down the programm...");
+					 break;
+				 }
 				 byte[] sendData = message.getBytes();
 				 InetAddress addr = InetAddress.getByName("localhost");
 				 DatagramPacket sPacket = new DatagramPacket(sendData, sendData.length, addr, 8080);
@@ -22,8 +25,9 @@ public class QuoteUDPClient {
 				 byte[] receiveData = new byte[1024];
 				 DatagramPacket rPacket = new DatagramPacket(receiveData, receiveData.length);
 				 socket.receive(rPacket);
-				 String response = new String(rPacket.getData());
+				 String response = new String(rPacket.getData(), 0, rPacket.getLength());
 				 System.out.println("Received from server: " + response);
+				 System.out.print("Type get or exit: ");
 			 }
 		 }
 		 catch (Exception e){ e.printStackTrace(); }
